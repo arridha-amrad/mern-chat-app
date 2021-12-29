@@ -1,0 +1,13 @@
+GET http://localhost:5000/test
+content-type: application/json
+
+
+### REGISTER
+POST http://localhost:5000/user/signup
+Content-Type: application/json
+
+{
+   "name": "jack122",
+   "email": "jack122@test.com",
+   "password": "jack08"
+}
