@@ -1,11 +1,9 @@
 const User = require("../models/userModel");
-
 const bcrypt = require("bcrypt");
-
 const { generateToken } = require("../utils/tokenHandler");
 
 const signup = async (req, res) => {
-  const { name, email, password, pic } = req.body;
+  const { name, email, password, pics } = req.body;
   try {
     const isUserExist = await User.findOne({ email });
     if (isUserExist) {
@@ -16,7 +14,7 @@ const signup = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      pic,
+      pic: pics,
     });
     const token = await generateToken(newUser.id);
     return res.status(200).json({ user: newUser, token });

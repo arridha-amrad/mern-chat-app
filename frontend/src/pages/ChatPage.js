@@ -1,7 +1,10 @@
 import React from "react";
+import { ChatState } from "../context/chatContext";
+import { SideDrawer } from "../components";
 
 const ChatPage = () => {
-  return <div>Chat Page</div>;
+   const { user } = ChatState();
+   return <div style={{ width: "100%" }}>{user && <SideDrawer />}</div>;
 };
 
 export default ChatPage;
