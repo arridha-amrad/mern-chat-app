@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
    Box,
    Button,
@@ -11,11 +11,30 @@ import {
    Avatar,
    MenuDivider,
 } from "@chakra-ui/react";
+import { useHistory } from "react-router-dom";
 
 import { ChevronDownIcon, BellIcon } from "@chakra-ui/icons";
 import { ChatState } from "../context/chatContext";
+import ProfileModal from "./ProfileModal";
+import MyDrawer from "./MyDrawer";
 
 const SideDrawer = () => {
+   const [search, setSearch] = useState("");
+   const [searchResult, setSearchResult] = useState([]);
+   const [loading, setLoading] = useState(false);
+   const [loadingChat, setLoadingChat] = useState(false);
+   const [isOpen, setIsOpen] = useState(false);
+   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+   const history = useHistory();
+
+   const logoutHandler = () => {
+      localStorage.removeItem("userInfo");
+      history.push("/");
+   };
+
+   const btnRef = useRef();
+
    const {
       user: { user },
    } = ChatState();
@@ -32,7 +51,11 @@ const SideDrawer = () => {
             borderWidth="5px"
          >
             <Tooltip label="Search user" hasArrow placement="bottom-end">
-               <Button variant="ghost">
+               <Button
+                  ref={btnRef}
+                  onClick={() => setIsDrawerOpen(true)}
+                  variant="ghost"
+               >
                   <i className="fas fa-search"></i>
                   <Text display={{ base: "none", md: "flex" }} px="4">
                      {" "}
@@ -52,13 +75,25 @@ const SideDrawer = () => {
                      <Avatar size="sm" cursor="pointer" src={pic} name={name} />
                   </MenuButton>
                   <MenuList>
-                     <MenuItem>My Profile</MenuItem>
+                     <MenuItem onClick={() => setIsOpen(true)}>
+                        My Profile
+                     </MenuItem>
                      <MenuDivider />
-                     <MenuItem>Logout</MenuItem>
+                     <MenuItem onClick={logoutHandler}>Logout</MenuItem>
                   </MenuList>
                </Menu>
             </Box>
          </Box>
+         <ProfileModal
+            user={user}
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+         />
+         <MyDrawer
+            isOpen={isDrawerOpen}
+            onClose={() => setIsDrawerOpen(false)}
+            btnRef={btnRef}
+         />
       </>
    );
 };
