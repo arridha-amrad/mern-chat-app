@@ -14,15 +14,11 @@ import {
 import { useHistory } from "react-router-dom";
 
 import { ChevronDownIcon, BellIcon } from "@chakra-ui/icons";
-import { ChatState } from "../context/chatContext";
+import { ChatState } from "../context/ChatProvider";
 import ProfileModal from "./ProfileModal";
 import MyDrawer from "./MyDrawer";
 
 const SideDrawer = () => {
-   const [search, setSearch] = useState("");
-   const [searchResult, setSearchResult] = useState([]);
-   const [loading, setLoading] = useState(false);
-   const [loadingChat, setLoadingChat] = useState(false);
    const [isOpen, setIsOpen] = useState(false);
    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 

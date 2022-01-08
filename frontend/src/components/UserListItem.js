@@ -2,7 +2,7 @@ import React from "react";
 
 import { Box, Avatar, Text } from "@chakra-ui/react";
 
-const SearchResult = ({ user, handleFunction }) => {
+const UserListItem = ({ user, handleFunction }) => {
    return (
       <Box
          onClick={handleFunction}
@@ -40,4 +40,4 @@ const SearchResult = ({ user, handleFunction }) => {
    );
 };
 
-export default SearchResult;
+export default UserListItem;

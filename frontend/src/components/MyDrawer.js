@@ -7,18 +7,18 @@ import {
    DrawerHeader,
    DrawerBody,
    Input,
-   DrawerFooter,
    Button,
    HStack,
-   Stack,
-   Skeleton,
+   Box,
    useToast,
+   Text,
    Spinner,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { ChatState } from "../context/chatContext";
+import { ChatState } from "../context/ChatProvider";
 
-import SearchResult from "./SearchResult";
+import UserListItem from "./UserListItem";
+import ChatLoading from "./ChatLoading";
 
 const MyDrawer = ({ isOpen, onClose, btnRef }) => {
    const [loadingSearch, setLoadingSearch] = useState(false);
@@ -76,6 +76,7 @@ const MyDrawer = ({ isOpen, onClose, btnRef }) => {
          if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
          setSelectedChat(data);
          setLoadingChat(false);
+         onClose();
       } catch (err) {
          console.log(err);
          toast({
@@ -119,20 +120,19 @@ const MyDrawer = ({ isOpen, onClose, btnRef }) => {
                   )}
                </HStack>
                {loadingSearch ? (
-                  <Stack marginTop="2rem">
-                     <Skeleton height="40px" />
-                     <Skeleton height="40px" />
-                     <Skeleton height="40px" />
-                  </Stack>
-               ) : (
-                  searchResult.length > 0 &&
+                  <ChatLoading />
+               ) : searchResult.length > 0 ? (
                   searchResult.map((res) => (
-                     <SearchResult
+                     <UserListItem
                         key={res._id}
                         user={res}
                         handleFunction={() => accessChat(res._id)}
                      />
                   ))
+               ) : (
+                  <Box mt="2">
+                     <Text>no user found</Text>
+                  </Box>
                )}
             </DrawerBody>
          </DrawerContent>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { ChatState } from "../context/chatContext";
+import { ChatState } from "../context/ChatProvider";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 
-const MyChat = () => {
+const MyChats = () => {
    const toast = useToast();
-   const { user, setChats } = ChatState();
+   const { user, setChats, chats, selectedChat, setSelectedChat } = ChatState();
    const [loggedUser, setLoggedUser] = useState();
 
    const fetchChats = async () => {
@@ -17,7 +17,6 @@ const MyChat = () => {
             },
          };
          const { data } = await axios.get("http://localhost:5000/chat", config);
-         console.log("data : ", data);
          setChats(data);
       } catch (error) {
          toast({
@@ -35,7 +34,7 @@ const MyChat = () => {
       fetchChats();
       // eslint-disable-next-line
    }, []);
-   return <div>MyChat</div>;
+   return <div>MyChats</div>;
 };
 
-export default MyChat;
+export default MyChats;
